@@ -3,6 +3,7 @@
 *.o
 *.exe
 *.out
+*/log
 
 # Directories
 bin/
