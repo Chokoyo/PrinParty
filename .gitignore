@@ -1,0 +1,11 @@
+# Files
+*.d
+*.o
+*.exe
+*.out
+
+# Directories
+bin/
+share/
+lib/
+include/
