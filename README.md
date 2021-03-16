@@ -25,7 +25,7 @@ Two players will play on one map. They will start from the same place, and they 
 
 
 
-## Coding Requirements
+## Coding Requirements & Features
 
 1. Generation of random game sets or events
 
@@ -42,6 +42,7 @@ This game also allowed to the players to store their game progress at any point 
 
 4. Dynamic memory management
 
+In this project, we will use new and delete statement when initialing some of the variable, so that the system will automatically deallocate the memory when it is no longer needed.
 
 5. File input/output (e.g., for loading/saving game status)
 
