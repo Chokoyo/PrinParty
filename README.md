@@ -1,5 +1,5 @@
 # PrinPart
-A ENGG1340-Group-Project developed by Gu Zhuangcheng & Wangsinan
+A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(3035770599)
 
 ## Description of our game
 
@@ -29,25 +29,26 @@ Two players will play on one map. They will start from the same place, and they 
 
 1. Generation of random game sets or events
 
-The main.cpp will randomly decides the sequence of 4 mini-games at the beginning of the game.
-In each mini-game, the players will encounter randomly generated game sets. For instance, in the game of "Color blocks", the players are expected to choose the largest color blocks which their area is randomly generated. In the game of "Maze", the routes, obstacles, and extra bonus stars will be randomly generated.
+The main.cpp will randomly decide the sequence of 4 mini-games at the beginning of the game.
+In each mini-game, the players will encounter randomly generated game sets. For instance, in the game of "Color blocks", the players are expected to choose the largest color blocks in which their area is randomly generated. In the game of "Maze", the routes, obstacles, and extra bonus stars will be randomly generated.
 
 2. Data structures for storing game status
 
-In this party games, there will be a scoreboard used to records the accumulative points that the players earned after each round of game. The scoreboard will be stored in an 2-D array where its length is equal to the number of players(2-4) decided at the start of the game.
+In this party game, there will be a scoreboard used to records the accumulative points that the players earned after each round of the game. The scoreboard will be stored in a 2-D array where its length is equal to the number of players(2-4) decided at the start of the game.
 
-In some of the mini-games, the players will use a simulated cursor(controlled by keybords) for making choices or movements. We will use the struct statement to create user-defined data types which contains the x-position and y-position in integer.
+In some of the mini-games, the players will use a simulated cursor(controlled by keyboard) for making choices or movements. We will use the struct statement to create user-defined data types which contain the x-position and y-position in integer.
 
-This game also allowed to the players to store their game progress at any point of the game. The game status will also be defined using user-defined data type 
+This game also allowed the players to store their game progress at any point of the game. The game status will also be defined using user-defined data types.
 
 4. Dynamic memory management
 
-In this project, we will use new and delete statement when initialing some of the variable, so that the system will automatically deallocate the memory when it is no longer needed.
+In this project, we will use new and delete statements when initialing some of the variables so that the system will automatically deallocate the memory when it is no longer needed.
 
 5. File input/output (e.g., for loading/saving game status)
 
-There is a  in-built game saving  function in the which allow the player the pause and save the game by pressing F2 key on the keyboards. The game status will be store in an .gamesaving file which enable the play to continue playing the game next time. This saving will also record the random seed of the game, so that the players are able to replay.
+There is an in-built game saving function in them which allows the player the pause and save the game by pressing the <kbd>F2</kbd> key on the keyboards. The game status will be store in a .gamesaving file which enables the play to continue playing the game next time. This saving will also record the random seed of the game so that the players are able to replay.
 
 6. Program codes in multiple files
 
-Each mini-game will be implemented in seperated .cpp files. And we will also use the Object-Oriented Program to implement, and each objects will be coded in different files.
+Each mini-game will be implemented in separated .cpp files. And we will also use the Object-Oriented Program to implement, and each object will be coded in different files.
+
