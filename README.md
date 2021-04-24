@@ -1,4 +1,4 @@
-# PrinPart
+# PrinParty
 A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(3035770599)
 
 ## Description of our game
@@ -28,7 +28,7 @@ Two players will play on one map. They will start from the same place, and they 
 2. Using the getch() function that can let the program to read directly from the keyboard input.
 3. Allow user to pause the game anytime by saving the game using File I/O.
 4. Using random seed to generate different games sets.
-5. Allow user to replay any previous games by input the random seed.
+5. Allow user to replay any previous games by inputting the random seed.
 6. Using ncurses library to support colorful display.
 7. Using dynamic data management to reduce resource usage.
 8. Using the Object-Oriented Program to implement.
