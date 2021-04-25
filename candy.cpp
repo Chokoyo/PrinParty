@@ -18,14 +18,14 @@ struct candy
     int candyy;
 };
 
-int main()
+int candyGame(vector<int> score)
 {
     initscr();
     raw();
     noecho();
     curs_set(0);
-    int sumRmark = 0;
-    int sumLmark = 0;
+    int sumRmark = score[1];
+    int sumLmark = score[0];
     for (int m = 0; m < 3; m++)
     {
         int Rmark = 0;
@@ -285,7 +285,8 @@ int main()
                     Lmark += 10;
                 }
             }
-
+            sumLmark += Lmark;
+            sumRmark += Rmark;
             auto now = steady_clock::now();
             auto duration = duration_cast<seconds>(now - start);
             if (stoi(to_string(duration.count())) > 30)
@@ -297,18 +298,23 @@ int main()
         box(thirdgwin, 0, 0);
         wattron(thirdgwin, A_REVERSE);
         mvwprintw(thirdgwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 - 6, "LEFT PLAYER: ");
-        mvwprintw(thirdgwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 + 8, to_string(Lmark).c_str());
+        mvwprintw(thirdgwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 + 8, to_string(sumLmark).c_str());
         mvwprintw(thirdgwin, thirdgwinyMax / 2 + 1, thirdgwinxMax / 2 - 6, "RIGHT PLAYER: ");
-        mvwprintw(thirdgwin, thirdgwinyMax / 2 + 1, thirdgwinxMax / 2 + 9, to_string(Rmark).c_str());
+        mvwprintw(thirdgwin, thirdgwinyMax / 2 + 1, thirdgwinxMax / 2 + 9, to_string(sumRmark).c_str());
         wattroff(thirdgwin, A_REVERSE);
         wrefresh(thirdgwin);
         sleep(5);
 
         clear();
         refresh();
-        sumLmark += Lmark;
-        sumRmark += Rmark;
     }
     endwin();
+    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    string score1 = argv[1], score2 = argv[2];
+    candyGame({stoi(score1), stoi(score2)});
     return 0;
 }
