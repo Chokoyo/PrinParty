@@ -8,7 +8,7 @@ chmod 700 configure
 make -j --silent
 make -j --silent install
 echo "Dependencies successfully loaded!"
-g++ -I ./include -I ./include/ncursestw -L ./lib -o $fileName  $fileName.cpp -lncursestw -ldl -pthread\
+g++ -I ./include -I ./include/ncursestw -L ./lib -o $fileName  $fileName.cpp -lncursestw -ldl -pthread
 chmod 700 $fileName
 clear
 ./$fileName
