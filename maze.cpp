@@ -71,15 +71,15 @@ void calculate(int x_num, int y_num, int m, int n)
     } //left
 }
 
-int main()
+int maze(vector<int> score)
 {
     setlocale(LC_ALL, "");
     initscr();
     raw();
     noecho();
     curs_set(0);
-    int sumRmark = 0;
-    int sumLmark = 0;
+    int sumRmark = score[1];
+    int sumLmark = score[0];
     int x_num;
     int y_num;
     for (int q = 0; q < 3; q++)
@@ -406,6 +406,8 @@ int main()
                 break;
             }
         }
+        sumLmark += Lmark;
+        sumRmark += Rmark;
         wclear(thirdgwin);
         wclear(Lwin);
         box(thirdgwin, 0, 0);
@@ -415,11 +417,11 @@ int main()
         refresh();
         wattron(thirdgwin, A_REVERSE);
         mvwprintw(thirdgwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 - 6, "RIGHT PLAYER: ");
-        mvwprintw(thirdgwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 + 9, to_string(Rmark).c_str());
+        mvwprintw(thirdgwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 + 9, to_string(sumRmark).c_str());
         wattron(thirdgwin, A_REVERSE);
         wattron(Lwin, A_REVERSE);
         mvwprintw(Lwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 - 6, "LEFT PLAYER: ");
-        mvwprintw(Lwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 + 8, to_string(Lmark).c_str());
+        mvwprintw(Lwin, thirdgwinyMax / 2 - 1, thirdgwinxMax / 2 + 8, to_string(sumLmark).c_str());
         wattroff(Lwin, A_REVERSE);
         wrefresh(thirdgwin);
         wrefresh(Lwin);
@@ -430,9 +432,14 @@ int main()
         wrefresh(Lwin);
         clear();
         refresh();
-        sumLmark += Lmark;
-        sumRmark += Rmark;
     }
     endwin();
+    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    string score1 = argv[1], score2 = argv[2];
+    maze({stoi(score1), stoi(score2)});
     return 0;
 }
