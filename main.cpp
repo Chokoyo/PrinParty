@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iomanip>
 #include <ctime>
+#include <iostream>
 #include <sys/time.h>
 #include "cursor.h"
 using namespace std;
@@ -28,6 +29,18 @@ int main()
     }
 
     // vairable declearation
+    int number = 0;
+    ifstream fin;
+    ifstream finfinal;
+    string finalline;
+    string line;
+    string thefileName;
+    vector<string> thesavings;
+    string chosensaving;
+    string threeinformation;
+    vector<int> sequence;
+    int specificse;
+    int deletenumber;
     int stage = 0, input = 0, y = 0, x = 0, y_max, x_max;
     vector<int> gameSeq = {0, 1, 2, 3}, score = {0, 0};
     string menu[4][7] = {{"Party Mode (2 Player)",
@@ -255,6 +268,122 @@ int main()
             stage = 3;
             continue;
         case 5: // load game page
+            system("ls savings/ >sinto.txt");
+            system("mv savings/sinto.txt sinto.txt");
+            thefileName = "sinto.txt";
+            fin.open(thefileName);
+            if (fin.fail())
+            {
+                cout << "file open error" << endl;
+                exit(0);
+            }
+            else
+            {
+                while (getline(fin, line))
+                {
+                    thesavings.push_back(line);
+                }
+            }
+            fin.close();
+            printwin(win);
+            for (int i = 0; i < 5; i++)
+            {
+                mvwprintw(win, i + 1, 5, thesavings[i].c_str());
+            }
+            y = 1;
+            mvwprintw(win, y, 2, "➤");
+            while (1)
+            {
+                input = wgetch(win);
+                if (input == 10) // 10 present the enter key
+                {
+                    chosensaving = thesavings[y - 1];
+                    finfinal.open("savings/" + chosensaving);
+                    if (finfinal.fail())
+                    {
+                        cout << "file open error" << endl;
+                        exit(0);
+                    }
+                    else
+                    {
+                        while (getline(finfinal, finalline))
+                        {
+                            if (number == 0)
+                            {
+                                for (int i = 0; i < finalline.length(); i++)
+                                {
+                                    if (finalline[i] != ' ')
+                                    {
+                                        specificse = finalline[i] - '0';
+                                        sequence.push_back(specificse);
+                                    }
+                                }
+                            }
+                            if (number == 1)
+                            {
+                                deletenumber = stoi(finalline);
+                            }
+                            number += 1;
+                        }
+
+                        for (int i = deletenumber + 1; i < sequence.size(); i++)
+                        {
+                            if (sequence[i] == 0)
+                            {
+                                system("clear");
+                                system("./area 0 0 2");
+                                system("clear");
+                                initNcurses();
+                                keypad(win, true);
+                            }
+                            else if (sequence[i] == 1)
+                            {
+                                system("clear");
+                                system("./pong 0 0 2");
+                                system("clear");
+                                initNcurses();
+                                keypad(win, true);
+                            }
+                            else if (sequence[i] == 2)
+                            {
+                                system("clear");
+                                system("./candy 0 0 2");
+                                system("clear");
+                                initNcurses();
+                                keypad(win, true);
+                            }
+                            else if (sequence[i] == 3)
+                            {
+                                system("clear");
+                                system("./maze 0 0 2");
+                                system("clear");
+                                initNcurses();
+                                keypad(win, true);
+                            }
+                        }
+                    }
+                    finfinal.close();
+                }
+                mvwprintw(win, y, 2, "  ");
+                switch (input)
+                {
+                case KEY_UP:
+                    y--;
+                    if (y == 0)
+                        y = 1;
+                    break;
+                case KEY_DOWN:
+                    y++;
+                    if (y > 5)
+                        y = 5;
+                    break;
+
+                default:
+                    break;
+                }
+                mvwprintw(win, y, 2, "➤");
+                wrefresh(win);
+            }
             break;
         case 6: // Game 1:
             system("clear");
