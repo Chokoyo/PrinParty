@@ -1,38 +1,51 @@
 #include <ncurses.h>
+#include <algorithm>
+#include <vector>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <fstream>
+#include <ctime>
 #include "cursor.h"
 using namespace std;
 
 void printwin(WINDOW *win);
+void initNcurses();
 
 int main()
 {
     // initalize ncurses
-    setlocale(LC_ALL, "");
-    initscr();
-    noecho();
-    raw();
-    curs_set(0);
+    initNcurses();
+    srand(time(NULL));
     if (!has_colors())
     {
         printw("This terminal doesn't support color display");
         getch();
-        return -1;
+        exit(1);
     }
 
     // vairable declearation
     int stage = 0, input = 0, y = 0, x = 0, y_max, x_max;
-    string menu[3][5] = {{"Party mode", "Single game", "Quick start", "Load game", "Back"},
-                         {"1. game",
-                          "2. game",
-                          "3. game",
-                          "4. game",
+    vector<int> gameSeq = {0, 1, 2, 3};
+    string menu[3][7] = {{"Party Mode (2 Player)",
+                          "Single Game",
+                          "Quick Start",
+                          "Load Game",
                           "Back"},
-                         {}};
+                         {"Game 1: Largest Area (2 Player)",
+                          "Game 2: Ping Pong (2 Player)",
+                          "Game 3: Collect Candies (2 Player)",
+                          "Game 4: Maze Advanture (2 Player)",
+                          "Game 1: Largest Area (1 Player)",
+                          "Game 2: Ping Pong (1 Player)",
+                          "Back"},
+                         {"./area 0 0 2",
+                          "./pong 0 0 2",
+                          "./candy",
+                          "./maze",
+                          "./area 0 0 1",
+                          "./ponf 0 0 2"}};
     WINDOW *win = newwin(20, 60, 0, 0); /*newwin(height, width, y, x)*/
     getmaxyx(win, y_max, x_max);
     printwin(win);
@@ -51,9 +64,16 @@ int main()
             mvwprintw(win, 14, 18, "Press any key to begin");
             wattroff(win, A_STANDOUT);
             wrefresh(win);
-            wgetch(win);
+            input = wgetch(win);
+            if (input == 'p')
+            {
+                endwin();
+                system("clear");
+                exit(0);
+            }
             stage++;
         case 1: // menu page
+            curs_set(0);
             printwin(win);
             for (int i = 0; i < 5; i++)
             {
@@ -93,10 +113,23 @@ int main()
                 stage = 0;
             continue;
         case 2: // party game page
+            random_shuffle(gameSeq.begin(), gameSeq.end());
+            for (int i = 0; i < 4; i++)
+            {
+                printwin(win);
+                system("clear");
+                system(menu[2][gameSeq[i]].c_str());
+                system("clear");
+                initNcurses();
+                keypad(win, true);
+
+                // Ask the User Whether to go to the next game
+                        }
+
             break;
         case 3: // single game page
             printwin(win);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
                 mvwprintw(win, i + 1, 5, menu[1][i].c_str());
             }
@@ -120,8 +153,8 @@ int main()
                     break;
                 case KEY_DOWN:
                     y++;
-                    if (y > 5)
-                        y = 5;
+                    if (y > 7)
+                        y = 7;
                     break;
 
                 default:
@@ -130,28 +163,69 @@ int main()
                 mvwprintw(win, y, 2, "➤");
                 wrefresh(win);
             }
-            if (stage == 10)
+            if (stage == 12)
                 stage = 1;
             continue;
         case 4: // quick start page
             printwin(win);
-            pcursor->printLoc();
-            while (pcursor->move() != 'x')
-            {
-                pcursor->printLoc();
-            }
-            break;
+            system("clear");
+            system(menu[2][rand() % 7].c_str());
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
         case 5: // load game page
             break;
         case 6: // Game 1:
-            break;
-        case 6: // Game 2:
-            break;
-        case 6: // Game 3:
-            break;
-        case 6: // Game 4:
-            break;
-        case 10: // test page
+            system("clear");
+            system("./area 0 0 2");
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
+        case 7: // Game 2:
+            system("clear");
+            system("./pong 0 0 2");
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
+        case 8: // Game 3:
+            system("clear");
+            system("./candy");
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
+        case 9: // Game 4:
+            system("clear");
+            system("./maze");
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
+        case 10: // Game 5:
+            system("clear");
+            system("./area 0 0 1");
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
+        case 11: // Game 6:
+            system("clear");
+            system("./pong 0 0 1");
+            system("clear");
+            initNcurses();
+            keypad(win, true);
+            stage = 3;
+            continue;
+        case 12: // test page
             printwin(win);
 
             while (pcursor->move() != 'x')
@@ -176,4 +250,13 @@ void printwin(WINDOW *win)
     box(win, 0, 0);
     refresh();
     wrefresh(win);
+}
+
+void initNcurses()
+{
+    setlocale(LC_ALL, "");
+    initscr();
+    noecho();
+    raw();
+    curs_set(0);
 }
