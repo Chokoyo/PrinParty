@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <fstream>
+#include <iomanip>
 #include <ctime>
+#include <sys/time.h>
 #include "cursor.h"
 using namespace std;
 
@@ -27,8 +29,8 @@ int main()
 
     // vairable declearation
     int stage = 0, input = 0, y = 0, x = 0, y_max, x_max;
-    vector<int> gameSeq = {0, 1, 2, 3};
-    string menu[3][7] = {{"Party Mode (2 Player)",
+    vector<int> gameSeq = {0, 1, 2, 3}, score = {0, 0};
+    string menu[4][7] = {{"Party Mode (2 Player)",
                           "Single Game",
                           "Quick Start",
                           "Load Game",
@@ -42,14 +44,24 @@ int main()
                           "Back"},
                          {"./area 0 0 2",
                           "./pong 0 0 2",
+                          "./candy 0 0",
+                          "./maze 0 0",
+                          "./area 0 0 1",
+                          "./pong 0 0 2"},
+                         {"./area",
+                          "./pong",
                           "./candy",
                           "./maze",
-                          "./area 0 0 1",
-                          "./ponf 0 0 2"}};
+                          "./area",
+                          "./pong"}};
+    string command, fileName;
     WINDOW *win = newwin(20, 60, 0, 0); /*newwin(height, width, y, x)*/
     getmaxyx(win, y_max, x_max);
     printwin(win);
     keypad(win, true);
+    ofstream fout;
+    time_t t = time(0);
+    tm *now = localtime(&t);
     Cursor *pcursor = new Cursor(win, 1, 1, '@');
 
     while (1)
@@ -113,19 +125,86 @@ int main()
                 stage = 0;
             continue;
         case 2: // party game page
+            // summon random game sequence
             random_shuffle(gameSeq.begin(), gameSeq.end());
             for (int i = 0; i < 4; i++)
             {
+                command = menu[3][gameSeq[i]] + " " + to_string(score[0]) +
+                          " " + to_string(score[1]) + " 2";
                 printwin(win);
                 system("clear");
-                system(menu[2][gameSeq[i]].c_str());
+                system(command.c_str());
                 system("clear");
                 initNcurses();
                 keypad(win, true);
-
                 // Ask the User Whether to go to the next game
-                        }
-
+                mvwprintw(win, 1, 5, "Continue to the next game");
+                mvwprintw(win, 2, 5, "Quit and Save");
+                y = 1;
+                mvwprintw(win, y, 2, "➤");
+                while (1)
+                {
+                    input = wgetch(win);
+                    mvwprintw(win, y, 2, "  ");
+                    if (input == 10)
+                        break;
+                    else if (input == KEY_UP)
+                        y = 1;
+                    else if (input == KEY_DOWN)
+                        y = 2;
+                    mvwprintw(win, y, 2, "➤");
+                }
+                if (y == 1) // continue to the next game
+                    continue;
+                if (y == 2) // Save and quit the game
+                {
+                    t = time(0);
+                    fileName = to_string(1900 + now->tm_year);
+                    if (to_string(1 + now->tm_mon).length() == 1)
+                    {
+                        fileName += "0";
+                    }
+                    fileName += to_string(1 + now->tm_mon);
+                    if (to_string(now->tm_mday).length() == 1)
+                    {
+                        fileName += "0";
+                    }
+                    fileName += to_string(now->tm_mday);
+                    if (to_string(now->tm_hour).length() == 1)
+                    {
+                        fileName += "0";
+                    }
+                    fileName += to_string(now->tm_hour);
+                    if (to_string(now->tm_min).length() == 1)
+                    {
+                        fileName += "0";
+                    }
+                    fileName += to_string(now->tm_min);
+                    if (to_string(now->tm_sec).length() == 1)
+                    {
+                        fileName += "0";
+                    }
+                    fileName += to_string(now->tm_sec);
+                    fout.open("savings/" + fileName + ".save");
+                    if (fout.fail())
+                    {
+                        wclear(win);
+                        mvwprintw(win, 1, 2, fileName.c_str());
+                        wrefresh(win);
+                        exit(1);
+                    }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        fout << gameSeq[i] << " ";
+                    }
+                    fout << endl;
+                    fout << i << endl;
+                    fout.close();
+                    endwin();
+                    system("clear");
+                    exit(0);
+                }
+            }
             break;
         case 3: // single game page
             printwin(win);
@@ -195,7 +274,7 @@ int main()
             continue;
         case 8: // Game 3:
             system("clear");
-            system("./candy");
+            system("./candy 0 0");
             system("clear");
             initNcurses();
             keypad(win, true);
@@ -203,7 +282,7 @@ int main()
             continue;
         case 9: // Game 4:
             system("clear");
-            system("./maze");
+            system("./maze 0 0");
             system("clear");
             initNcurses();
             keypad(win, true);
