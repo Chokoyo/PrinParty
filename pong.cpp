@@ -43,18 +43,19 @@ int random(int x)
     return (rand() % x);
 }
 
-void printScore(WINDOW *dwin)
+void printScore(WINDOW *dwin, int playerNum)
 {
     mvwprintw(dwin, 15, 31, "SCORE");
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < playerNum; i++)
     {
+        mvwprintw(dwin, 16, 38 + i * 10, "        ");
         mvwprintw(dwin, 16, 34 + i * 10, ("p" + to_string(i + 1) + ": ").c_str());
         mvwprintw(dwin, 16, 38 + i * 10, to_string(scores[i]).c_str());
     }
     wrefresh(dwin);
 }
 
-void moveBall(WINDOW *dwin)
+void moveBall(WINDOW *dwin, int playerNum)
 {
     int detect = 0;
     while (1)
@@ -74,15 +75,21 @@ void moveBall(WINDOW *dwin)
             if (myBall.position[1] <= 3)
             {
                 mvwaddstr(dwin, myBall.position[0], myBall.position[1], " ");
-                scores[1]++;
-                printScore(dwin);
+                if (playerNum == 1 && scores[0] >= 0)
+                    scores[0]--;
+                else
+                    scores[1]++;
+                printScore(dwin, playerNum);
                 break;
             }
             else if (myBall.position[1] >= 56)
             {
                 mvwaddstr(dwin, myBall.position[0], myBall.position[1], " ");
-                scores[0]++;
-                printScore(dwin);
+                if (playerNum == 1 && scores[0] >= 0)
+                    scores[0]--;
+                else
+                    scores[0]++;
+                printScore(dwin, playerNum);
                 break;
             }
             if (detect == 1)
@@ -105,7 +112,7 @@ void moveBall(WINDOW *dwin)
 void timer(WINDOW *dwin)
 {
     mvwprintw(dwin, 15, 2, "TIME");
-    for (int i = 50; i >= 0; i--)
+    for (int i = 30; i >= 0; i--)
     {
         mvwprintw(dwin, 16, 5, "          ");
         mvwprintw(dwin, 16, 5, (to_string(i) + "s").c_str());
@@ -121,12 +128,9 @@ void printSeperator(WINDOW *dwin, int playerNum)
     {
         mvwprintw(dwin, 14, i, "─");
     }
-    if (playerNum == 2)
+    for (int j = 15; j < 19; j++)
     {
-        for (int j = 15; j < 19; j++)
-        {
-            mvwprintw(dwin, j, 29, "│");
-        }
+        mvwprintw(dwin, j, 29, "│");
     }
     wrefresh(dwin);
 }
@@ -161,7 +165,8 @@ void pong(int round, vector<int> score, int numOfPlayer)
 
     WINDOW *win = newwin(20, 60, 0, 0);
     keypad(win, true);
-
+    if (numOfPlayer == 1)
+        scores[0] += 10;
     int input, p1 = 5, p2 = 5;
     vector<thread> timeThread(3), ballThread(3);
     // for (int i = 0; i < 3; i++)
@@ -181,8 +186,18 @@ void pong(int round, vector<int> score, int numOfPlayer)
         board[i][0] = -1;
         board[i][59] = -1;
     }
+    box(win, 0, 0);
+    printSeperator(win, numOfPlayer);
+    mvwprintw(win, 0, 3, "[GAME: Pong]");
+    mvwprintw(win, 19, 8, "[round 1/2]");
+    mvwprintw(win, 15, 2, "TIME");
+    printScore(win, numOfPlayer);
+    mvwprintw(win, 7, 19, "Press Any Key to Start");
+    wrefresh(win);
+    wgetch(win);
+    mvwprintw(win, 7, 22, "                      ");
 
-    for (int i = 1; i <= 1; i++) // totally 3 rounds
+    for (int i = 1; i <= 2; i++) // totally 3 rounds
     {
         tThreadEnd = 0;
         ballThreadEnd = 0;
@@ -191,11 +206,13 @@ void pong(int round, vector<int> score, int numOfPlayer)
         box(win, 0, 0);
         printSeperator(win, numOfPlayer);
         mvwprintw(win, 0, 3, "[GAME: Pong]");
-        mvwprintw(win, 19, 8, ("[round " + to_string(i) + "/3]").c_str());
-        printScore(win);
+        mvwprintw(win, 19, 8, ("[round " + to_string(i) + "/2]").c_str());
+        printScore(win, numOfPlayer);
+        printBuffle(win, p1, 2, 0);
+        printBuffle(win, p2, 56, 0);
         wrefresh(win);
         timeThread[i - 1] = thread(timer, win);
-        ballThread[i - 1] = thread(moveBall, win);
+        ballThread[i - 1] = thread(moveBall, win, numOfPlayer);
         timeThread[i - 1].detach();
         ballThread[i - 1].detach();
         while (1)
@@ -206,30 +223,57 @@ void pong(int round, vector<int> score, int numOfPlayer)
             input = wgetch(win);
             printBuffle(win, p1, 2, 1);
             printBuffle(win, p2, 56, 1);
-            switch (input)
+            if (numOfPlayer == 1)
             {
-            case 'w':
-                p1--;
-                if (p1 < 1)
-                    p1 = 1;
-                break;
-            case 's':
-                p1++;
-                if (p1 >= 9)
-                    p1 = 9;
-                break;
-            case KEY_UP:
-                p2--;
-                if (p2 < 1)
-                    p2 = 1;
-                break;
-            case KEY_DOWN:
-                p2++;
-                if (p2 >= 9)
-                    p2 = 9;
-                break;
-            default:
-                break;
+                switch (input)
+                {
+                case KEY_UP:
+                    p1--;
+                    if (p1 < 1)
+                        p1 = 1;
+                    p2--;
+                    if (p2 < 1)
+                        p2 = 1;
+                    break;
+                case KEY_DOWN:
+                    p1++;
+                    if (p1 >= 9)
+                        p1 = 9;
+                    p2++;
+                    if (p2 >= 9)
+                        p2 = 9;
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                switch (input)
+                {
+                case 'w':
+                    p1--;
+                    if (p1 < 1)
+                        p1 = 1;
+                    break;
+                case 's':
+                    p1++;
+                    if (p1 >= 9)
+                        p1 = 9;
+                    break;
+                case KEY_UP:
+                    p2--;
+                    if (p2 < 1)
+                        p2 = 1;
+                    break;
+                case KEY_DOWN:
+                    p2++;
+                    if (p2 >= 9)
+                        p2 = 9;
+                    break;
+                default:
+                    break;
+                }
             }
             printBuffle(win, p1, 2, 0);
             printBuffle(win, p2, 56, 0);
@@ -240,15 +284,9 @@ void pong(int round, vector<int> score, int numOfPlayer)
     endwin();
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    // cout << "here" << endl;
-
-    try
-    {
-        pong(0, {0, 0}, 2);
-    }
-    catch (...)
-    {
-    }
+    string score1 = argv[1], score2 = argv[2], pNum = argv[3];
+    pong(0, {stoi(score1), stoi(score2)}, stoi(pNum));
+    return 0;
 }
