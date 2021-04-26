@@ -1,3 +1,8 @@
+// Author: Wang Sinan
+// U. No.: 3035770599
+// ENGG1340 Group Project
+// File Name: maze.cpp
+// Description: The two players will need to move from the upper left corner to the bottom right corner.
 #include <ncurses.h>
 #include <stdio.h>
 #include <string.h>
