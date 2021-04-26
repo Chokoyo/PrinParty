@@ -4,10 +4,10 @@ A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(30
 - [PrinParty](#prinparty)
   * [Description of our game](#description-of-our-game)
   * [Rules of our game](#rules-of-our-game)
-    + [Game 1:](#game-1-)
-    + [Game 2:](#game-2-)
-    + [Game 3:](#game-3-)
-    + [Game 4:](#game-4-)
+    + [Game 1: Largest Area](#game-1--largest-area)
+    + [Game 2: Pong](#game-2--pong)
+    + [Game 3: Collect Candy](#game-3--collect-candy)
+    + [Game 4: Maze Advanture](#game-4--maze-advanture)
   * [Game Features](#game-features)
   * [Coding Requirements](#coding-requirements)
   * [Game Control](#game-control)
@@ -21,25 +21,25 @@ PrinParty will include four mini-games. Two players will play the four games in 
 
 ## Rules of our game
 
-### Game 1: 
+### Game 1: Largest Area
 
 There will be four areas of different colors for players to choose from, and they need to select the one with largest total area. The player who first chooses the correct color area will get more scores. If they don’t choose the biggest color area, the bigger one will get more scores.
 
 ![area](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_area.gif)
 
-### Game 2: 
+### Game 2: Pong
 
 In this game, two players need to move their buffles to catch with the moving ping pong ball. If the player failed to do so, his opponent will git one score. There are in total two rounds in this game, and the moving speed of the ball will be increased in the second round.
 
 ![pong](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_pong.gif)
 
-### Game 3: 
+### Game 3: Collect Candy
 
 On the screen, there will emerge different candies, and they have different marks (Yellow > Blue > Red > Green). Two players need to move their cursors onto the candy to get the mark. In the end of the game, the player whose mark is higher wins the game.
 
 ![candy](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_candy.gif)
 
-### Game 4: 
+### Game 4: Maze Advanture
 
 Two players will play on one map. They will start from the same place, and they need to get to a destination (at the right bottom corner). The player who first reaches the destination will get more scores, and the game will end immediately once a person has reached the destination. 
 
