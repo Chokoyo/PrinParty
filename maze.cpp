@@ -143,19 +143,20 @@ int maze(vector<int> score)
         WINDOW *thirdgwin = newwin(m + 4, n + 4, 0, n + 8); //create a new window for game4
         box(thirdgwin, 0, 0);
         if (q == 0) //show the round number
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 1");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 1]");
         else if (q == 1)
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 2");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 2]");
         else
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 3");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 3]");
         WINDOW *Lwin = newwin(m + 4, n + 4, 0, 0);
         box(Lwin, 0, 0);
+        mvwprintw(Lwin, 0, 3, "[Game: Maze]");
         if (q == 0)
-            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 1");
+            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "[ROUND 1]");
         else if (q == 1)
-            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 2");
+            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "[ROUND 2]");
         else
-            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 3");
+            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "[ROUND 3]");
         wattron(Lwin, A_REVERSE);
         mvwprintw(Lwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "Press any key to continue!");
         wattroff(Lwin, A_REVERSE);
@@ -168,18 +169,19 @@ int maze(vector<int> score)
         mvwprintw(thirdgwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "                          ");
         box(Lwin, 0, 0);
         box(thirdgwin, 0, 0);
+        mvwprintw(Lwin, 0, 3, "[Game: Maze]");
         if (q == 0)
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 1");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 1]");
         else if (q == 1)
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 2");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 2]");
         else
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 3");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 3]");
         if (q == 0)
-            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 1");
+            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "[ROUND 1]");
         else if (q == 1)
-            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 2");
+            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "[ROUND 2]");
         else
-            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 3");
+            mvwprintw(Lwin, thirdgwinyMax - 1, 2, "[ROUND 3]");
 
         point startpoint;
         point end; //initialize the start point
