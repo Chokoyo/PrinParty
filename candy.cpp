@@ -3,6 +3,7 @@
 // ENGG1340 Group Project
 // File Name: candy.cpp
 // Description: The two players will move and eat candies to get scores.
+
 #include <ncurses.h>
 #include <stdio.h>
 #include <string.h>
@@ -59,12 +60,13 @@ int candyGame(vector<int> score)
         WINDOW *thirdgwin = newwin(20, 60, 0, 0); //create a new window for game3
         getmaxyx(thirdgwin, thirdgwinyMax, thirdgwinxMax);
         box(thirdgwin, 0, 0); //get the border
-        if (m == 0)           //at the left bottom corner print the contemporary round
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 1");
+        mvwprintw(thirdgwin, 0, 3, "[Game: Candy]");
+        if (m == 0) //at the left bottom corner print the contemporary round
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 1/3]");
         else if (m == 1)
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 2");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 2/3]");
         else
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 3");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 3/3]");
         wattron(thirdgwin, A_REVERSE);
         mvwprintw(thirdgwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "Press any key to continue!");
         wattroff(thirdgwin, A_REVERSE);
@@ -72,11 +74,11 @@ int candyGame(vector<int> score)
         mvwprintw(thirdgwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "                          ");
         box(thirdgwin, 0, 0);
         if (m == 0)
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 1");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 1/3]");
         else if (m == 1)
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 2");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 2/3]");
         else
-            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 3");
+            mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "[ROUND 3/3]");
         refresh();
         wrefresh(thirdgwin);
         //declare two players to move
