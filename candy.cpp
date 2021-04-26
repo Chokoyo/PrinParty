@@ -1,3 +1,8 @@
+// Author: Wang Sinan
+// U. No.: 3035770599
+// ENGG1340 Group Project
+// File Name: candy.cpp
+// Description: The two players will move and eat candies to get scores.
 #include <ncurses.h>
 #include <stdio.h>
 #include <string.h>
@@ -51,7 +56,7 @@ int candyGame(vector<int> score)
         int thirdgwinyMax, thirdgwinxMax;
         getmaxyx(stdscr, yMax, xMax);
 
-        WINDOW *thirdgwin = newwin(yMax, xMax / 2, 0, xMax / 4); //create a new window for game3
+        WINDOW *thirdgwin = newwin(20, 60, 0, 0); //create a new window for game3
         getmaxyx(thirdgwin, thirdgwinyMax, thirdgwinxMax);
         box(thirdgwin, 0, 0); //get the border
         if (m == 0)           //at the left bottom corner print the contemporary round
@@ -129,7 +134,7 @@ int candyGame(vector<int> score)
                 wattroff(thirdgwin, COLOR_PAIR(3));
             }
 
-            if (record % 23 == 0)
+            if (record % 29 == 0)
             {
                 wattron(thirdgwin, COLOR_PAIR(4));
                 candyy = (rand() % (thirdgwinyMax - 3)) + 2;
@@ -150,7 +155,7 @@ int candyGame(vector<int> score)
                 wattroff(thirdgwin, COLOR_PAIR(4));
             }
 
-            if (record % 31 == 0)
+            if (record % 37 == 0)
             {
                 wattron(thirdgwin, COLOR_PAIR(5));
                 candyy = (rand() % (thirdgwinyMax - 3)) + 2;
