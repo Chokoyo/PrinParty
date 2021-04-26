@@ -1,3 +1,9 @@
+// Author: Gu Zhuangcheng
+// U. No.: 3035827110
+// ENGG1340 Group Project
+// File Name: area.cpp
+// Description: This program implement the find the biggest area game
+
 #include <ncurses.h>
 #include <ctime>
 #include <stdio.h>
@@ -11,11 +17,13 @@
 #include <unistd.h>
 using namespace std;
 
+// this funtion return a number range of 0 to x-1
 int random(int x)
 {
     return (rand() % x);
 }
 
+// clear the content on the ncurses window and reprint the game box
 void clearBox(WINDOW *dwin)
 {
     wclear(dwin);
@@ -24,13 +32,13 @@ void clearBox(WINDOW *dwin)
     wrefresh(dwin);
 }
 
+// the algorithm to generate random gaming sets
 void generateBoard(int b[16][12], int round)
 {
     int count = 0;
     vector<int> colorSet{0, 1, 2, 3};
-    vector<vector<int>> coordinateSet;
-    vector<vector<int>> blockNumSet{{20, 38, 42, 40}, {20, 30, 42, 48}, {20, 30, 40, 50}};
 
+    // assign random value to the board
     for (int i = 1; i < 15; i++)
     {
         for (int j = 1; j < 11; j++)
@@ -38,47 +46,22 @@ void generateBoard(int b[16][12], int round)
             b[i][j] = colorSet[random(4)];
         }
     }
-    // // generate coordinateSet
-    // for (int i = 0; i < 140; i++)
-    // {
-    //     for (int j = 1; j < 15; j++)
-    //     {
-    //         for (int k = 1; k < 11; k++)
-    //         {
-    //             coordinateSet.push_back({j, k});
-    //         }
-    //     }
-    // }
 
-    // // shuffle all the arrays to create random game sets
-    // for (int i = 0; i < 3; i++)
-    //     random_shuffle(blockNumSet[i].begin(), blockNumSet[i].end());
-    // random_shuffle(coordinateSet.begin(), coordinateSet.end());
-    // random_shuffle(colorSet.begin(), colorSet.end());
-
-    // set the border to 1
+    // set the vertical border to 1
     for (int i = 0; i < 16; i++)
     {
         b[i][0] = -1;
         b[i][11] = -1;
     }
+    // set the horizontal border to 1
     for (int j = 0; j < 12; j++)
     {
         b[0][j] = -1;
         b[15][j] = -1;
     }
-
-    // // fill color 1,2,3
-    // for (int i = 0; i < 3; i++)
-    // {
-    //     for (int j = 0; j < blockNumSet[round - 1][i]; j++)
-    //     {
-    //         b[coordinateSet[count][0]][coordinateSet[count][1]] = colorSet[i];
-    //         count++;
-    //     }
-    // }
 }
 
+// this function will print out the board on the screen
 void printBoard(WINDOW *dwin, int b[16][12])
 {
     for (int i = 0; i < 16; i++)
@@ -87,6 +70,7 @@ void printBoard(WINDOW *dwin, int b[16][12])
         {
             switch (b[i][j])
             {
+            // this case decide whether to print out the boarders
             case -1:
                 // mvwprintw(dwin, 2 + i, 2 + 2 * j, "█");
                 // mvwprintw(dwin, 2 + i, 3 + 2 * j, "█");
@@ -110,9 +94,10 @@ void printBoard(WINDOW *dwin, int b[16][12])
     wrefresh(dwin);
 }
 
+// this function handle the count down in every round of games
 void countDown(WINDOW *dwin, int time, int y, int x)
 {
-    // Count down 5 seconds
+    // Count down for n seconds
     for (int i = time; i > 0; i--)
     {
         mvwprintw(dwin, y, x, to_string(i).c_str());
@@ -126,6 +111,7 @@ void countDown(WINDOW *dwin, int time, int y, int x)
     wrefresh(dwin);
 }
 
+// Print out the users' choice
 void printChoices(WINDOW *dwin)
 {
     // print the choice
@@ -142,15 +128,18 @@ void printChoices(WINDOW *dwin)
     refresh();
 }
 
-int pSelect1(WINDOW *dwin, int choiceNum, int sep, int y, int x, int pNum, vector<string> &t)
+// this function handle 1 Player selection process
+int pSelect1(WINDOW *dwin, int choiceNum, int sep,
+             int y, int x, int pNum, vector<string> &t)
 {
     int choice = 0, input;
     auto start = chrono::steady_clock::now();
     keypad(dwin, true);
     wattron(dwin, 5);
-    mvwprintw(dwin, y, x, ("p" + to_string(pNum) + " 🡺").c_str());
+    mvwprintw(dwin, y, x, ("p" + to_string(pNum) + " ->").c_str());
     while (1)
     {
+        // get the input from the user input
         input = wgetch(dwin);
         if (input == 10) // 10 is the enter key
         {
@@ -159,7 +148,7 @@ int pSelect1(WINDOW *dwin, int choiceNum, int sep, int y, int x, int pNum, vecto
             t[0] = to_string(tt.count());
             break;
         }
-        mvwaddstr(dwin, y + 2 * choice, x, "     ");
+        mvwaddstr(dwin, y + 2 * choice, x, "     "); // erase the previous
         switch (input)
         {
         case KEY_UP:
@@ -177,14 +166,17 @@ int pSelect1(WINDOW *dwin, int choiceNum, int sep, int y, int x, int pNum, vecto
         default:
             break;
         }
-        mvwaddstr(dwin, y + 2 * choice, x, ("p" + to_string(pNum) + " 🡺").c_str());
+        mvwaddstr(dwin, y + 2 * choice, x,
+                  ("p" + to_string(pNum) + " ->").c_str());
         refresh();
     }
     wattroff(dwin, 5);
     return choice;
 }
 
-vector<int> pSelect2(WINDOW *dwin, int choiceNum, int sep, int y, int x, int pNum, vector<string> &t)
+// this function handle 1 Player selection process
+vector<int> pSelect2(WINDOW *dwin, int choiceNum, int sep,
+                     int y, int x, int pNum, vector<string> &t)
 {
     vector<int> choice(2, 0);
     vector<bool> chosen(2, 0);
@@ -192,10 +184,11 @@ vector<int> pSelect2(WINDOW *dwin, int choiceNum, int sep, int y, int x, int pNu
     auto start = chrono::steady_clock::now();
     keypad(dwin, true);
     wattron(dwin, 5);
-    mvwprintw(dwin, y, x, "p1 🡺");
-    mvwprintw(dwin, y, x + 11, "🡸  p2");
+    mvwprintw(dwin, y, x, "p1 ->");
+    mvwprintw(dwin, y, x + 11, "<- p2");
     while (1)
     {
+        // wait for the user input
         input = wgetch(dwin);
         if (input == 'e')
         {
@@ -250,20 +243,23 @@ vector<int> pSelect2(WINDOW *dwin, int choiceNum, int sep, int y, int x, int pNu
         default:
             break;
         }
-        mvwaddstr(dwin, y + 2 * choice[0], x, "p1 🡺");
-        mvwaddstr(dwin, y + 2 * choice[1], x + 11, "🡸  p2");
+        // move the arrow to the next position
+        mvwaddstr(dwin, y + 2 * choice[0], x, "p1 ->");
+        mvwaddstr(dwin, y + 2 * choice[1], x + 11, "<- p2");
         refresh();
     }
     wattroff(dwin, 5);
     return choice;
 }
 
+// This function can erase a certain part of the screen
 void erase(WINDOW *dwin, int y1, int x1, int y2, int x2)
 {
     for (int i = y1; i <= y2; i++)
     {
         for (int j = x1; j <= x2; j++)
         {
+            // repalce the charator with a space char
             mvwaddch(dwin, i, j, ' ');
         }
     }
@@ -271,22 +267,27 @@ void erase(WINDOW *dwin, int y1, int x1, int y2, int x2)
     refresh();
 }
 
-vector<int> assignScore(WINDOW *dwin, int b[16][12], vector<int> choices, int playerNum, vector<string> t)
+// assign score process (include animation)
+vector<int> assignScore(WINDOW *dwin, int b[16][12], vector<int> choices,
+                        int playerNum, vector<string> t)
 {
     vector<int> counts(4, 0), scores(2, 0);
     erase(dwin, 1, 29, 3, 58);
     erase(dwin, 5, 35, 13, 50);
 
-    // print players' choice
+    // print the time and seperator
     mvwprintw(dwin, 1, 29, "Time");
     for (int i = 28; i < 59; i++)
     {
         mvwaddstr(dwin, 3, i, "─");
     }
+    // print players' choice
     for (int i = 0; i < playerNum; i++)
     {
-        mvwprintw(dwin, 5 + 3 * choices[i], 29, ("p" + to_string(i + 1) + "🡺").c_str());
-        mvwprintw(dwin, 2, 31 + 12 * i, ("p" + to_string(i + 1) + ": " + t[i] + "ms").c_str());
+        mvwprintw(dwin, 5 + 3 * choices[i], 29,
+                  ("p" + to_string(i + 1) + "->").c_str());
+        mvwprintw(dwin, 2, 31 + 12 * i,
+                  ("p" + to_string(i + 1) + ": " + t[i] + "ms").c_str());
     }
     if (choices[0] == choices[1] && playerNum == 2)
     {
@@ -311,8 +312,10 @@ vector<int> assignScore(WINDOW *dwin, int b[16][12], vector<int> choices, int pl
         {
             counts[b[i][j]]++;
             mvwaddstr(dwin, i + 2, 2 + 2 * j, "  ");
-            mvwprintw(dwin, 5 + 3 * b[i][j], 34, to_string(counts[b[i][j]]).c_str());
-            mvwaddstr(dwin, 5 + 3 * b[i][j], 40 + counts[b[i][j]] / 3, "█");
+            mvwprintw(dwin, 5 + 3 * b[i][j], 34,
+                      to_string(counts[b[i][j]]).c_str());
+            mvwaddstr(dwin, 5 + 3 * b[i][j],
+                      40 + counts[b[i][j]] / 3, "█");
             wrefresh(dwin);
             usleep(100000);
         }
@@ -348,6 +351,7 @@ vector<int> assignScore(WINDOW *dwin, int b[16][12], vector<int> choices, int pl
     return scores;
 }
 
+// print the score of player(s) on the screen
 void printScores(WINDOW *dwin, vector<int> scores, int playerNum)
 {
     for (int i = 28; i < 59; i++)
@@ -357,12 +361,15 @@ void printScores(WINDOW *dwin, vector<int> scores, int playerNum)
     mvwaddstr(dwin, 17, 29, "Score");
     for (int i = 0; i < playerNum; i++)
     {
-        mvwaddstr(dwin, 18, 31 + 12 * i, ("p" + to_string(i + 1) + ": " + to_string(scores[i])).c_str());
+        mvwaddstr(dwin, 18, 31 + 12 * i,
+                  ("p" + to_string(i + 1) + ": " + to_string(scores[i])).c_str());
     }
 }
 
+// the game's function
 int area(int round, vector<int> score, int numOfPlayer)
 {
+    // initialize the ncurses library
     setlocale(LC_ALL, "");
     initscr();
     start_color();
@@ -379,19 +386,17 @@ int area(int round, vector<int> score, int numOfPlayer)
     int board[16][12] = {};
     vector<int> choices(2, 0), scores(2, 0), colorCount(4, 0);
     vector<string> time(2, "");
-    WINDOW *win = newwin(20, 60, 0, 0), *selecWin = derwin(win, 8, 22, 4, 29);
+    WINDOW *win = newwin(20, 60, 0, 0), *selecWin = derwin(win, 8, 30, 4, 29);
 
     box(win, 0, 0);
     mvwprintw(win, 0, 3, "[GAME: Area]");
     refresh();
 
-    // Instructions
-
     // the game will have 3 rounds
     for (int i = 1; i <= 3; i++)
     {
         mvwprintw(win, 0, 3, "[GAME: Area]");
-        mvwprintw(win, 19, 8, ("[round " + to_string(i) + "/3]").c_str());
+        mvwprintw(win, 19, 8, ("[ROUND " + to_string(i) + "/3]").c_str());
         generateBoard(board, i);
         printBoard(win, board);
         countDown(win, 3, 9, 43);
@@ -416,7 +421,6 @@ int area(int round, vector<int> score, int numOfPlayer)
         mvwprintw(win, 9, 7, "Press any key");
         mvwprintw(win, 10, 8, "to continue");
         wrefresh(win);
-        // mvwprintw(win, 18, 35, to_string(choices[0]).c_str());
         wgetch(win);
         // clear the window
         clearBox(win);
@@ -427,31 +431,6 @@ int area(int round, vector<int> score, int numOfPlayer)
 
 int main()
 {
-    // call for 1/2 player
-    area(0, {0, 0}, 2);
-
-    // auto start = chrono::steady_clock::now();
-    // while (1)
-    // {
-    //     auto now = chrono::steady_clock::now();
-    //     auto tt = chrono::duration_cast<chrono::seconds>(now - start);
-    //     string a = to_string(tt.count());
-    //     mvprintw(0, 0, "time=");
-    //     mvprintw(0, 5, a.c_str());
-    //     refresh();
-    // }
-
-    // double i = 0;
-    // string a;
-    // while (1)
-    // {
-    //     a = to_string(i);
-    //     mvprintw(0, 0, "time=");
-    //     mvprintw(0, 5, a.c_str());
-    //     refresh();
-    //     i = i + 0.1;
-    //     usleep(100000);
-    // }
-
+    area(0, {0, 0}, 2); /*area(round,score[],playerNum})*/
     return 0;
 }
