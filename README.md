@@ -1,6 +1,8 @@
 # PrinParty
 A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(3035770599)
 
+[toc]
+
 ## Description of our game
 
 PrinParty will include four mini-games. Two players will play the four games in random order. After playing every game, the player will get a score. When they finish ever single game, a total mark will be should. The player can also choose to play any single game from the menu page.
@@ -71,8 +73,24 @@ Two players will play on one map. They will start from the same place, and they 
 
     Each mini-game will be implemented in separated .cpp files. And we will also use the Object-Oriented Program to implement, and each object will be coded in different files.
     
-## Coding Requirements
-In the main menu page, user are allowed to use <kbd>&#8593</kbd> and <kbd>&#8595</kbd> for moving the selector up and down, and use <kbd>Enter</kbd> key to make choices.
+## Game Control
+In the main menu page, user are allowed to use <kbd>↑</kbd> and <kbd>↓</kbd> for moving the selector up and down, and use <kbd>Enter</kbd> key to make choices.
 
-The "Largest Area" game support 1 player and 2 player. For 1 Player, please use 
+The "Largest Area" game support 1 player and 2 player. Please use either <kbd>↑</kbd><kbd>↓</kbd> or <kbd>w</kbd><kbd>s</kbd> for move the selector and <kbd>Enter</kbd> or <kbd>e</kbd> key for making choices.
 
+In "Pong" game, user need to use either <kbd>↑</kbd><kbd>↓</kbd> or <kbd>w</kbd> and <kbd>s</kbd> to move their buffles up and down.
+
+In "Candy" and "Maze", user need to uses <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> or <kbd>w</kbd><kbd>s</kbd><kbd>a</kbd><kbd>d</kbd>.
+
+## Compile Insturctions
+1. In the working directories (Under PrinParty/), first use ```chmod 700 load_dependency.sh``` to allow the shell script to execute.
+
+2. Then use ```./load_dependency.sh``` to load the ncurses library, note that this script will automatically open the main menu page for you.
+
+3. If want to play the game when the dependecies are already loaded, please use ```./main``` to start the game.
+
+**Notes**
+1. If any conpiled binary files failed, the user can use ```make all``` command to recompile.
+2. The user's terminal should be at least have a size of 20(height)*60(width) before starting the game. Resizing the window after the program started is not permitted.
+3. Please **do not use** command prompt (use powershell instead) and any program other than "bash" to play the game.
+4. If encounter any problem during the marking, please contact zcgu@connect.hku.hk or wsn1226@connect.hku.hk
