@@ -33,4 +33,6 @@ main: main.o
 clean:
 	rm -f main main.o pong.o pong area area.o maze.o maze candy.o candy
 
-.PHONY: clean
+all:
+	make main area pong candy maze
+.PHONY: clean all
