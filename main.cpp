@@ -33,7 +33,7 @@ int main()
         exit(1);
     }
     // vairable declearation
-    int number = 0;
+    int number = 0, numberOfSaving = 0;
     ifstream fin;
     ifstream finfinal;
     string finalline;
@@ -290,21 +290,27 @@ int main()
                 while (getline(fin, line))
                 { //add line into the vector thesacings
                     thesavings.push_back(line);
+                    numberOfSaving += 1;
                 }
+            }
+            if (numberOfSaving > 5)
+            {
+                numberOfSaving = 5;
             }
             fin.close();
             thesavings.push_back("back");
             printwin(win);
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < numberOfSaving + 1; i++)
             {
                 mvwprintw(win, i + 1, 5, thesavings[i].c_str());
             }
             y = 1;
             mvwprintw(win, y, 2, "➤");
+            wrefresh(win);
             while (1)
             {
                 input = wgetch(win);
-                if (input == 10 && y == 6)
+                if (input == 10 && y == numberOfSaving + 1)
                 {
                     stage = 1;
                     break;
@@ -393,8 +399,8 @@ int main()
                     break;
                 case KEY_DOWN:
                     y++;
-                    if (y > 6)
-                        y = 6;
+                    if (y > numberOfSaving + 1)
+                        y = numberOfSaving + 1;
                     break;
 
                 default:
@@ -404,7 +410,7 @@ int main()
                 wrefresh(win);
             }
             //if the arrow at the location of "back", then go back to the former page
-            if (y != 6)
+            if (y != numberOfSaving + 1)
             {
                 break;
             }
