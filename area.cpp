@@ -429,8 +429,9 @@ int area(int round, vector<int> score, int numOfPlayer)
     return 0;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    area(0, {0, 0}, 2); /*area(round,score[],playerNum})*/
+    string score1 = argv[1], score2 = argv[2], pNum = argv[3];
+    area(0, {stoi(score1), stoi(score2)}, stoi(pNum)); /*area(round,score[],playerNum})*/
     return 0;
 }
