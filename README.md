@@ -4,28 +4,29 @@ A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(30
 ## Description of our game
 
 PrinParty will include four mini-games. Two players will play the four games in random order. After playing every game, the player will get a score. When they finish all games, their scores will add up, and the higher scorer wins the game.
+![main](https://github.com/Chokoyo/PrinParty/blob/main/pics/main_menu.gif)
 
 ## Rules of our game
 
 ### Game 1: 
 
 There will be four areas of different colors for players to choose from, and they need to select the biggest one. The player who first chooses the correct color area will get more scores. If they don’t choose the biggest color area, the bigger one will get more scores.
-![avatar](./pic/game_area.gif)
+![area](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_area.gif)
 
 ### Game 2: 
 
 In this game, two players need to pull up a weight in a specific time. They need to hit the keyboard in a certain way to pull up the weight. Finally, the person whose weight is higher when time is up will get more scores.
-![avatar](./pic/game_pong.gif)
+![pong](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_pong.gif)
 
 ### Game 3: 
 
 On the screen, there will emerge different balloons, and they have different marks. Two players need to move their cursors onto the balloon and click it to get the mark. In the end of the game, the player whose mark is higher will get higher scores.
-![avatar](./pic/game_candy.gif)
+![candy](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_candy.gif)
 
 ### Game 4: 
 
 Two players will play on one map. They will start from the same place, and they need to get to a destination. The player who first reaches the destination will get more scores, and the game will end immediately once a person has reached the destination. On the map, there will randomly emerge stars. If the first player had passed the stars, he would get more scores.
-![avatar](./pic/game_maze.gif)
+![maze](https://github.com/Chokoyo/PrinParty/blob/main/pics/game_maze.gif)
 
 ##  Game Features
 1. Using ncurses to implement frame refresh.
