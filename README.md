@@ -97,7 +97,9 @@ In "Candy" and "Maze", user need to uses <kbd>↑</kbd><kbd>↓</kbd><kbd>←</k
 
 2. Then use ```./load_dependency.sh``` to load the ncurses library, note that this script will automatically open the main menu page for you.
 
-3. If want to play the game when the dependecies are already loaded, please use ```./main``` to start the game.
+3. If encounter any problem, please use ```make all```. 
+
+4. If want to play the game when the dependecies are already loaded, please use ```./main``` to start the game.
 
 **Notes**
 1. For the sample input and output file, since we are using ncurses to implement the game, there are no standard cin or cout for the game, so we just save some of out game frames in to the text file as a sample output.
