@@ -19,8 +19,8 @@ using namespace chrono;
 #define right 2
 #define left 3
 #define up 4
-
-struct block_info
+//reference: the algorithm of prim to generate the maze(link: https://www.zhangshengrong.com/p/YjNKnj67aW/)
+struct block_info //define a struct to store the information of block
 {
     int row;
     int column;
@@ -41,7 +41,7 @@ void init(vector<vector<int>> a, int m, int n)
     {
         for (int j = 0; j <= n + 1; j++)
         {
-            a[i][j] = 1;
+            a[i][j] = 1; //initialize the vector of blocks
         }
     }
 }
@@ -52,7 +52,7 @@ void push(int x, int y, int direct)
 }
 
 void calculate(int x_num, int y_num, int m, int n)
-{
+{ //add information about the blocks around according to the current location
     if (x_num + 1 <= m)
     {
         push(x_num + 1, y_num, down);
@@ -83,7 +83,7 @@ int maze(vector<int> score)
     int x_num;
     int y_num;
     for (int q = 0; q < 3; q++)
-    {
+    { //determine the size of the maze according to the round of the game
         x_num = 1;
         y_num = 1;
         int m;
@@ -137,7 +137,7 @@ int maze(vector<int> score)
         getmaxyx(stdscr, yMax, xMax);
         WINDOW *thirdgwin = newwin(m + 4, n + 4, 0, n + 8); //create a new window for game4
         box(thirdgwin, 0, 0);
-        if (q == 0)
+        if (q == 0) //show the round number
             mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 1");
         else if (q == 1)
             mvwprintw(thirdgwin, thirdgwinyMax - 1, 2, "ROUND 2");
@@ -158,7 +158,7 @@ int maze(vector<int> score)
         mvwprintw(thirdgwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "Press any key to continue!");
         wattroff(thirdgwin, A_REVERSE);
         wrefresh(thirdgwin);
-        wgetch(Lwin);
+        wgetch(Lwin); //wait for the user to type in
         mvwprintw(Lwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "                          ");
         mvwprintw(thirdgwin, thirdgwinyMax / 2, thirdgwinxMax / 2 - 13, "                          ");
         box(Lwin, 0, 0);
@@ -177,7 +177,7 @@ int maze(vector<int> score)
             mvwprintw(Lwin, thirdgwinyMax - 1, 2, "ROUND 3");
 
         point startpoint;
-        point end;
+        point end; //initialize the start point
         startpoint.x = 1;
         startpoint.y = 1;
         end.x = m;
@@ -185,13 +185,14 @@ int maze(vector<int> score)
         init(a, m, n);
         srand((unsigned)time(NULL));
         calculate(x_num, y_num, m, n);
-        a[1][1] = 2;
+        a[1][1] = 2; //remove the first block
         while (blocks.size())
         {
             int num = blocks.size();
             int randnum = rand() % num;
             x_num = blocks[randnum].row;
             y_num = blocks[randnum].column;
+            //move the current location according to the direction
             switch (blocks[randnum].direct)
             {
             case down:
@@ -220,14 +221,14 @@ int maze(vector<int> score)
             }
             }
             if (a[x_num][y_num] == 1)
-            {
+            { //if the point is a block, we remove both blocks
                 a[blocks[randnum].row][blocks[randnum].column] = 2;
                 a[x_num][y_num] = 2;
-                calculate(x_num, y_num, m, n);
+                calculate(x_num, y_num, m, n); //update information in the block_info
             }
-            blocks.erase(blocks.begin() + randnum);
+            blocks.erase(blocks.begin() + randnum); //delete the randum-th element in the block vector
         }
-
+        //show the maze in the window according to the block vector
         for (int i = 0; i < m + 2; i++)
         {
             for (int j = 0; j < n + 2; j++)
@@ -282,9 +283,10 @@ int maze(vector<int> score)
         wattroff(Lwin, COLOR_PAIR(2));
         wrefresh(Lwin);
         wrefresh(thirdgwin);
-
+        //declare two players to move
         Player *R = new Player(thirdgwin, Lwin, 2, 2, 'R');
         Player *L = new Player(thirdgwin, Lwin, 2, 2, 'L');
+        //record the start time
         auto start = steady_clock::now();
         mvprintw(m + 4, n + 1, "⇧");
         mvprintw(m + 4, 2 * n + 9, "⇧");
@@ -297,6 +299,7 @@ int maze(vector<int> score)
                 break;
             if (choice == 'v')
                 break;
+            //if anyone of the player has reached the destination, we give a higher score to that player
             if (R->getx() == n + 1 && R->gety() == m + 1)
             {
                 Rmark = 6;
@@ -310,7 +313,7 @@ int maze(vector<int> score)
                 Lmark = 6;
                 break;
             }
-
+            //let the player to move
             switch (choice)
             {
             case KEY_UP:
@@ -398,14 +401,16 @@ int maze(vector<int> score)
             }
             wrefresh(thirdgwin);
             wrefresh(Lwin);
-
+            //record the current time
             auto now = steady_clock::now();
             auto duration = duration_cast<seconds>(now - start);
+            //if the time is up, the round ends and no one gets scores
             if (stoi(to_string(duration.count())) > 60)
             {
                 break;
             }
         }
+        //add every round's scores to the total score
         sumLmark += Lmark;
         sumRmark += Rmark;
         wclear(thirdgwin);
@@ -438,7 +443,7 @@ int maze(vector<int> score)
 }
 
 int main(int argc, char *argv[])
-{
+{ //read in the total scores from other PrinParty games
     string score1 = argv[1], score2 = argv[2];
     maze({stoi(score1), stoi(score2)});
     return 0;
