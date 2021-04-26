@@ -1,7 +1,20 @@
 # PrinParty
 A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(3035770599)
 
-[toc]
+- [PrinParty](#prinparty)
+  * [Description of our game](#description-of-our-game)
+  * [Rules of our game](#rules-of-our-game)
+    + [Game 1:](#game-1-)
+    + [Game 2:](#game-2-)
+    + [Game 3:](#game-3-)
+    + [Game 4:](#game-4-)
+  * [Game Features](#game-features)
+  * [Coding Requirements](#coding-requirements)
+  * [Game Control](#game-control)
+  * [Compile Insturctions](#compile-insturctions)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Description of our game
 
@@ -74,11 +87,11 @@ Two players will play on one map. They will start from the same place, and they 
     Each mini-game will be implemented in separated .cpp files. And we will also use the Object-Oriented Program to implement, and each object will be coded in different files.
     
 ## Game Control
-In the main menu page, user are allowed to use <kbd>↑</kbd> and <kbd>↓</kbd> for moving the selector up and down, and use <kbd>Enter</kbd> key to make choices.
+In the main menu page, user are allowed to use <kbd>↑</kbd><kbd>↓</kbd> for moving the selector up and down, and use <kbd>Enter</kbd> key to make choices.
 
 The "Largest Area" game support 1 player and 2 player. Please use either <kbd>↑</kbd><kbd>↓</kbd> or <kbd>w</kbd><kbd>s</kbd> for move the selector and <kbd>Enter</kbd> or <kbd>e</kbd> key for making choices.
 
-In "Pong" game, user need to use either <kbd>↑</kbd><kbd>↓</kbd> or <kbd>w</kbd> and <kbd>s</kbd> to move their buffles up and down.
+In "Pong" game, user need to use either <kbd>↑</kbd><kbd>↓</kbd> or <kbd>w</kbd><kbd>s</kbd> to move their buffles up and down.
 
 In "Candy" and "Maze", user need to uses <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> or <kbd>w</kbd><kbd>s</kbd><kbd>a</kbd><kbd>d</kbd>.
 
