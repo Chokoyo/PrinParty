@@ -270,7 +270,8 @@ int main()
         case 5: // load game page
             system("ls savings/ >sinto.txt");
             system("mv savings/sinto.txt sinto.txt");
-            thefileName = "sinto.txt";
+            system("sort -r sinto.txt > finalsinto.txt");
+            thefileName = "finalsinto.txt";
             fin.open(thefileName);
             if (fin.fail())
             {
@@ -285,8 +286,9 @@ int main()
                 }
             }
             fin.close();
+            thesavings.push_back("back");
             printwin(win);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
                 mvwprintw(win, i + 1, 5, thesavings[i].c_str());
             }
@@ -295,6 +297,12 @@ int main()
             while (1)
             {
                 input = wgetch(win);
+                if (input == 10 && y == 6)
+                {
+                    stage = 1;
+                    break;
+                }
+
                 if (input == 10) // 10 present the enter key
                 {
                     chosensaving = thesavings[y - 1];
@@ -374,8 +382,8 @@ int main()
                     break;
                 case KEY_DOWN:
                     y++;
-                    if (y > 5)
-                        y = 5;
+                    if (y > 6)
+                        y = 6;
                     break;
 
                 default:
@@ -384,7 +392,15 @@ int main()
                 mvwprintw(win, y, 2, "➤");
                 wrefresh(win);
             }
-            break;
+            if (y != 6)
+            {
+                break;
+            }
+            else
+            {
+                continue;
+            }
+
         case 6: // Game 1:
             system("clear");
             system("./area 0 0 2");
