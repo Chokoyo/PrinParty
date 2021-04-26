@@ -3,6 +3,7 @@
 // ENGG1340 Group Project
 // File Name: main.cpp
 // Description: This program control the whole flow of our PrinParty Game.
+
 #include <ncurses.h>
 #include <algorithm>
 #include <vector>
@@ -15,7 +16,6 @@
 #include <ctime>
 #include <iostream>
 #include <sys/time.h>
-#include "cursor.h"
 using namespace std;
 
 void printwin(WINDOW *win);
@@ -32,7 +32,6 @@ int main()
         getch();
         exit(1);
     }
-
     // vairable declearation
     int number = 0;
     ifstream fin;
@@ -50,7 +49,7 @@ int main()
     vector<int> gameSeq = {0, 1, 2, 3}, score = {0, 0};
     //set the menu
     string menu[4][7] = {{"Party Mode (2 Player)",
-                          "Single Game",
+                          "Single Game (1 OR 2 Player)",
                           "Quick Start",
                           "Load Game",
                           "Back"},
@@ -81,7 +80,6 @@ int main()
     ofstream fout;
     time_t t = time(0);
     tm *now = localtime(&t);
-    Cursor *pcursor = new Cursor(win, 1, 1, '@');
 
     while (1)
     {
@@ -274,9 +272,9 @@ int main()
             stage = 3;
             continue;
         case 5: // load game page
-                //1. list files' names and import to the text "sinto.txt"
-                //2. move the sinto.txt to the outer directory
-                //3. sort the file in reverse order in order to show the most recent five savings
+            // 1. list files' names and import to the text "sinto.txt"
+            // 2. move the sinto.txt to the outer directory
+            // 3. sort the file in reverse order in order to show the most recent five savings
             system("ls savings/ >sinto.txt");
             system("mv savings/sinto.txt sinto.txt");
             system("sort -r sinto.txt > finalsinto.txt");
@@ -325,8 +323,10 @@ int main()
                     {
                         while (getline(finfinal, finalline))
                         {
+                            // extract infomation from the first line of the saving text,
+                            // get a vector composing four integer
                             if (number == 0)
-                            { //extract infomation from the first line of the saving text, get a vector composing four integer
+                            {
                                 for (int i = 0; i < finalline.length(); i++)
                                 {
                                     if (finalline[i] != ' ')
@@ -336,15 +336,17 @@ int main()
                                     }
                                 }
                             }
+                            // extract information from the second line of the saving text
+                            // in order to know what games that the player have played
                             if (number == 1)
-                            { //extract information from the second line of the saving text in order to know what games that the player have played
+                            {
                                 deletenumber = stoi(finalline);
                             }
                             number += 1;
                         }
-
+                        //enter the corresponding game according to the remaining sequence
                         for (int i = deletenumber + 1; i < sequence.size(); i++)
-                        { //enter the corresponding game according to the remaining sequence
+                        {
                             if (sequence[i] == 0)
                             {
                                 system("clear");
@@ -443,7 +445,7 @@ int main()
             keypad(win, true);
             stage = 3;
             continue;
-        case 10: // Game 5:
+        case 10: // Game 1 (Single Player Mode):
             system("clear");
             system("./area 0 0 1");
             system("clear");
@@ -451,7 +453,7 @@ int main()
             keypad(win, true);
             stage = 3;
             continue;
-        case 11: // Game 6:
+        case 11: // Game 2 (Single Player Mode):
             system("clear");
             system("./pong 0 0 1");
             system("clear");
@@ -459,14 +461,7 @@ int main()
             keypad(win, true);
             stage = 3;
             continue;
-        case 12: // test page
-            printwin(win);
 
-            while (pcursor->move() != 'x')
-            {
-                pcursor->printLoc();
-            }
-            break;
         default:
             break;
         }
@@ -478,6 +473,7 @@ int main()
     return 0;
 }
 
+// clear and print the window
 void printwin(WINDOW *win)
 {
     wclear(win);
@@ -486,6 +482,7 @@ void printwin(WINDOW *win)
     wrefresh(win);
 }
 
+// initialize Ncurses
 void initNcurses()
 {
     setlocale(LC_ALL, "");
