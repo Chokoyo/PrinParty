@@ -13,9 +13,6 @@ A ENGG1340-Group-Project developed by Gu Zhuangcheng(3035827110) & Wang Sinan(30
   * [Game Control](#game-control)
   * [Compile Insturctions](#compile-insturctions)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-
 ## Description of our game
 
 PrinParty will include four mini-games. Two players will play the four games in random order. After playing every game, the player will get a score. When they finish ever single game, a total mark will be should. The player can also choose to play any single game from the menu page.
