@@ -101,7 +101,11 @@ In "Candy" and "Maze", user need to uses <kbd>↑</kbd><kbd>↓</kbd><kbd>←</k
 
 **Notes**
 1. For the sample input and output file, since we are using ncurses to implement the game, there are no standard cin or cout for the game, so we just save some of out game frames in to the text file as a sample output.
-2. If any conpiled binary files failed, the user can use ```make all``` command to recompile.
+
+2. If any compiled binary files fail, the user can use ```make all``` command to recompile.
+
 3. The user's terminal should be at least have a size of 20(height)*60(width) before starting the game. Resizing the window after the program started is not permitted.
-4. Please **do not use** command prompt (use powershell instead) and any program other than "bash" to play the game.
-5. If encounter any problem during the marking, please contact zcgu@connect.hku.hk or wsn1226@connect.hku.hk
+
+4. Please **do not use** command prompt (use powershell instead) or any program other than "bash" to play the game.
+
+5. If any problem during the marking is encountered, please contact zcgu@connect.hku.hk or wsn1226@connect.hku.hk.
