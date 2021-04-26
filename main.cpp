@@ -1,3 +1,8 @@
+// Author: Gu zhuangcheng, Wang Sinan
+// U. No.: 3035827110,3035770599
+// ENGG1340 Group Project
+// File Name: main.cpp
+// Description: This program control the whole flow of our PrinParty Game.
 #include <ncurses.h>
 #include <algorithm>
 #include <vector>
@@ -43,6 +48,7 @@ int main()
     int deletenumber;
     int stage = 0, input = 0, y = 0, x = 0, y_max, x_max;
     vector<int> gameSeq = {0, 1, 2, 3}, score = {0, 0};
+    //set the menu
     string menu[4][7] = {{"Party Mode (2 Player)",
                           "Single Game",
                           "Quick Start",
@@ -268,6 +274,9 @@ int main()
             stage = 3;
             continue;
         case 5: // load game page
+                //1. list files' names and import to the text "sinto.txt"
+                //2. move the sinto.txt to the outer directory
+                //3. sort the file in reverse order in order to show the most recent five savings
             system("ls savings/ >sinto.txt");
             system("mv savings/sinto.txt sinto.txt");
             system("sort -r sinto.txt > finalsinto.txt");
@@ -281,7 +290,7 @@ int main()
             else
             {
                 while (getline(fin, line))
-                {
+                { //add line into the vector thesacings
                     thesavings.push_back(line);
                 }
             }
@@ -317,7 +326,7 @@ int main()
                         while (getline(finfinal, finalline))
                         {
                             if (number == 0)
-                            {
+                            { //extract infomation from the first line of the saving text, get a vector composing four integer
                                 for (int i = 0; i < finalline.length(); i++)
                                 {
                                     if (finalline[i] != ' ')
@@ -328,14 +337,14 @@ int main()
                                 }
                             }
                             if (number == 1)
-                            {
+                            { //extract information from the second line of the saving text in order to know what games that the player have played
                                 deletenumber = stoi(finalline);
                             }
                             number += 1;
                         }
 
                         for (int i = deletenumber + 1; i < sequence.size(); i++)
-                        {
+                        { //enter the corresponding game according to the remaining sequence
                             if (sequence[i] == 0)
                             {
                                 system("clear");
@@ -392,6 +401,7 @@ int main()
                 mvwprintw(win, y, 2, "➤");
                 wrefresh(win);
             }
+            //if the arrow at the location of "back", then go back to the former page
             if (y != 6)
             {
                 break;
