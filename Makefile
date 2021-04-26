@@ -16,7 +16,7 @@ area.o: area.cpp
 		g++ $(FLAGS) -c area.cpp -lncursestw -ldl -pthread
 
 area: area.o
-		g++ $(FLAGS) area.o -o maze -lncursestw -ldl -pthread
+		g++ $(FLAGS) area.o -o area -lncursestw -ldl -pthread
 
 pong.o: pong.cpp
 		g++ $(FLAGS) -c pong.cpp -lncursestw -ldl -pthread
